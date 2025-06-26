@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ismotic</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    :root {
+      --primary-color: #002b5c;
+      --secondary-color: #add8e6;
+      --bg-color: #add8e6;
+      --text-color: #002b5c;
+    }
+
+    body.light {
+      --primary-color: #add8e6;
+      --secondary-color: #002b5c;
+      --bg-color: #002b5c;
+      --text-color: #add8e6;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      font-family: 'Times New Roman', Times, serif;
+      color: var(--text-color);
+      text-align: center;
+      padding: 30px;
+      transition: all 0.5s ease;
+    }
+
+    h1 {
+      color: var(--text-color);
+    }
+
+    .nav {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-top: 50px;
+    }
+
+    .nav a {
+      text-decoration: none;
+      padding: 15px 30px;
+      background-color: var(--primary-color);
+      color: var(--secondary-color);
+      font-size: 1.2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .nav a:hover {
+      background-color: var(--secondary-color);
+      color: var(--primary-color);
+      transform: translateY(-2px);
+    }
+
+    .ripple {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: rgba(255,255,255,0.6);
+      border-radius: 50%;
+      transform: scale(0);
+      animation: rippleEffect 0.6s linear;
+      pointer-events: none;
+    }
+
+    @keyframes rippleEffect {
+      to {
+        transform: scale(10);
+        opacity: 0;
+      }
+    }
+
+    .theme-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--primary-color);
+      color: var(--secondary-color);
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 999;
+    }
+
+    .theme-toggle:hover {
+      background: var(--secondary-color);
+      color: var(--primary-color);
+    }
+  </style>
+</head>
+<body>
+  <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
+
+  <h1>Ismotic - A Biology CAS Initiative</h1>
+  <h2>Made and designed by Anoushka, Yashita and Ilahi, biology HL students at Podar International School</h2>
+  <p>Explore two interactive simulations demonstrating osmosis principles in IV fluids and general cell environments.</p>
+
+  <div class="nav">
+    <a href="mini-osmosis.html">Mini Osmosis Demo</a>
+    <a href="homer.html">IV Fluid Simulation</a>
+  </div>
+
+  <script>
+    // Fade-in
+    window.addEventListener("DOMContentLoaded", () => {
+      document.body.style.opacity = 0;
+      document.body.style.transition = "opacity 1.2s ease-in-out";
+      setTimeout(() => {
+        document.body.style.opacity = 1;
+      }, 100);
+    });
+
+    // Sound and ripple
+    window.addEventListener("load", () => {
+      const buttons = document.querySelectorAll('.nav a');
+      const hoverSound = new Audio('https://cdn.pixabay.com/audio/2022/03/15/audio_c37c5e51c8.mp3');
+
+      buttons.forEach(button => {
+        button.addEventListener('mouseenter', () => {
+          hoverSound.currentTime = 0;
+          hoverSound.play();
+        });
+
+        button.addEventListener('click', e => {
+          const circle = document.createElement("span");
+          circle.classList.add("ripple");
+          circle.style.left = `${e.offsetX}px`;
+          circle.style.top = `${e.offsetY}px`;
+          button.appendChild(circle);
+          setTimeout(() => circle.remove(), 600);
+        });
+      });
+    });
+
+    // Theme toggle
+    function toggleTheme() {
+      document.body.classList.toggle("light");
+      const theme = document.body.classList.contains("light") ? "light" : "dark";
+      localStorage.setItem("theme-mode", theme);
+    }
+
+    // Load saved theme
+    window.addEventListener("DOMContentLoaded", () => {
+      const saved = localStorage.getItem("theme-mode");
+      if (saved === "light") document.body.classList.add("light");
+    });
+  </script>
+</body>
+</html>

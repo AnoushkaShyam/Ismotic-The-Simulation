@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Osmosis in the IV fluid</title>
+  <style>
+    body {
+      font-family: 'Times New Roman', Times, serif;
+      background-color: #add8e6;
+      color: #002b5c;
+      text-align: center;
+      padding: 30px;
+      transition: all 0.3s ease;
+    }
+
+    .theme-toggle {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      z-index: 999;
+    }
+
+    .theme-toggle button {
+      padding: 8px 16px;
+      font-size: 0.9rem;
+      background-color: #002b5c;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    h1 {
+      color: #002b5c;
+      margin-bottom: 20px;
+    }
+
+    .container {
+      margin-top: 30px;
+    }
+
+    label, select, input, span {
+      font-size: 1.1rem;
+    }
+
+    select, input[type="range"] {
+      margin: 10px;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #999;
+    }
+
+    button.action-btn {
+      padding: 10px 20px;
+      font-size: 1rem;
+      background-color: #002b5c;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      transition: background-color 0.3s ease;
+    }
+
+    button.action-btn:hover {
+      background-color: #005f8a;
+    }
+
+    .cell-visual {
+      margin: 30px auto;
+      width: 200px;
+      height: 200px;
+      border: 3px dashed #002b5c;
+      background-color: #dbe9ff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.4s ease;
+    }
+
+    #cell {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background-color: #8ac6d1;
+      transition: all 1s ease;
+    }
+
+    .info {
+      max-width: 800px;
+      margin: 30px auto;
+      background-color: #ffffffcc;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .slider-container {
+      margin-top: 30px;
+    }
+
+    /* === Theme === */
+    .navy-theme {
+      background-color: #002b5c;
+      color: white;
+    }
+
+    .navy-theme .info {
+      background-color: #002147;
+      color: white;
+    }
+
+    .navy-theme h1 {
+      color: white;
+    }
+
+    .navy-theme .cell-visual {
+      border-color: white;
+      background-color: #355070;
+    }
+
+    .navy-theme .theme-toggle button,
+    .navy-theme .action-btn {
+      background-color: #ffffff;
+      color: #002b5c;
+    }
+
+    .navy-theme .action-btn:hover {
+      background-color: #cce0ff;
+    }
+  </style>
+</head>
+<body>
+  <div class="theme-toggle">
+    <button onclick="toggleTheme()">Toggle Theme</button>
+  </div>
+
+  <h1>Osmosis in the IV fluid</h1>
+
+  <div class="container">
+    <label for="solution">Select IV Fluid Type:</label>
+    <select id="solution">
+      <option value="isotonic">Isotonic (0.9% NaCl)</option>
+      <option value="hypotonic">Hypotonic (Distilled Water)</option>
+      <option value="hypertonic">Hypertonic (2% NaCl)</option>
+    </select>
+
+    <br>
+    <button class="action-btn" onclick="simulateOsmosis()">Simulate</button>
+
+    <div class="cell-visual">
+      <div id="cell"></div>
+    </div>
+
+    <div class="info">
+      <h2>Explanation</h2>
+      <p id="result">Select a fluid to begin the simulation.</p>
+    </div>
+
+    <div class="slider-container">
+      <label for="concentrationRange">Adjust NaCl Concentration (%):</label>
+      <input type="range" min="0" max="3" step="0.1" value="0.9" id="concentrationRange" oninput="updateConcentration(this.value)">
+      <span id="concentrationValue">0.9%</span>
+    </div>
+  </div>
+
+  <script>
+    function simulateOsmosis() {
+      const solution = document.getElementById("solution").value;
+      const cell = document.getElementById("cell");
+      const result = document.getElementById("result");
+
+      if (solution === "isotonic") {
+        cell.style.width = "100px";
+        cell.style.height = "100px";
+        result.textContent = "Isotonic: Water movement is balanced. Cell size remains the same.";
+      } else if (solution === "hypotonic") {
+        cell.style.width = "130px";
+        cell.style.height = "130px";
+        result.textContent = "Hypotonic: Water enters the cell. Cell swells (risk of lysis).";
+      } else if (solution === "hypertonic") {
+        cell.style.width = "70px";
+        cell.style.height = "70px";
+        result.textContent = "Hypertonic: Water exits the cell. Cell shrinks (crenation).";
+      }
+    }
+
+    function updateConcentration(value) {
+      document.getElementById("concentrationValue").textContent = value + "%";
+      const cell = document.getElementById("cell");
+      const result = document.getElementById("result");
+
+      if (value == 0.9) {
+        cell.style.width = "100px";
+        cell.style.height = "100px";
+        result.textContent = "Isotonic: Water movement is balanced. Cell size remains the same.";
+      } else if (value < 0.9) {
+        const size = 100 + (0.9 - value) * 40;
+        cell.style.width = size + "px";
+        cell.style.height = size + "px";
+        result.textContent = `Hypotonic (${value}% NaCl): Water enters the cell. Swelling observed.`;
+      } else {
+        const size = 100 - (value - 0.9) * 40;
+        cell.style.width = size + "px";
+        cell.style.height = size + "px";
+        result.textContent = `Hypertonic (${value}% NaCl): Water exits the cell. Shrinking observed.`;
+      }
+    }
+
+    function toggleTheme() {
+      document.body.classList.toggle("navy-theme");
+    }
+  </script>
+</body>
+</html>

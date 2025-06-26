@@ -1,0 +1,84 @@
+body {
+    font-family: 'Times New Roman', Times, serif;
+    text-align: center;
+    background-color: #add8e6;
+    color: #002b5c;
+    padding: 30px;
+  }
+  
+  h1 {
+    color: #002b5c;
+    margin-bottom: 30px;
+  }
+  
+  .container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    background: #ffffffdd;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  
+  label, select, input[type=range], span {
+    font-size: 1rem;
+    margin: 10px;
+  }
+  
+  select {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    background-color: #ffffff;
+    color: #002b5c;
+    transition: border-color 0.3s;
+  }
+  select:hover {
+    border-color: #005f8a;
+  }
+  
+  button {
+    padding: 10px 20px;
+    margin: 15px;
+    font-size: 1rem;
+    border: none;
+    background-color: #002b5c;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  button:hover {
+    background-color: #005f8a;
+    transform: translateY(-2px);
+  }
+  
+  .cell-visual {
+    margin: 30px auto;
+    width: 200px;
+    height: 200px;
+    border: 3px dashed #002b5c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #e6f7ff;
+  }
+  
+  #cell {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: #8ac6d1;
+    transition: all 1s ease;
+  }
+  
+  .info {
+    margin-top: 30px;
+    text-align: left;
+  }
+  
+  .slider-container {
+    margin-top: 30px;
+  }
+  

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>World of Osmosis</title>
+  <style>
+    body {
+      font-family: 'Times New Roman', Times, serif;
+      padding: 20px;
+      transition: all 0.4s ease;
+    }
+
+    .theme-toggle {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      z-index: 1000;
+    }
+
+    .theme-toggle button {
+      padding: 8px 16px;
+      font-size: 0.9rem;
+      background-color: #002b5c;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 30px;
+      flex-wrap: wrap;
+    }
+
+    .cell {
+      width: 220px;
+      height: 220px;
+      border: 8px dashed #002b5c;
+      border-radius: 50%;
+      background: radial-gradient(circle, #dbe9ff, #e6f0ff);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+    }
+
+    .water {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      background: linear-gradient(to top, #336699, #5d9cec);
+      transition: height 1s ease;
+    }
+
+    .solute {
+      position: absolute;
+      top: 10%;
+      left: 20%;
+      width: 20px;
+      height: 20px;
+      background-color: #ff7043;
+      border-radius: 50%;
+      box-shadow: 0 0 5px #bf360c;
+    }
+
+    .solute:nth-child(2) { left: 60%; top: 30%; }
+    .solute:nth-child(3) { left: 40%; top: 50%; }
+
+    .button-container {
+      margin-top: 30px;
+      text-align: center;
+    }
+
+    button.action-btn {
+      padding: 12px 24px;
+      margin: 10px;
+      font-size: 1rem;
+      border: none;
+      background-color: #002b5c;
+      color: white;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    button.action-btn:hover {
+      background-color: #005f8a;
+      transform: translateY(-2px);
+    }
+
+    .description {
+      max-width: 900px;
+      margin: auto;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      padding: 20px;
+      background-color: #ffffffdd;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      margin-top: 30px;
+      transition: all 0.4s ease;
+    }
+
+    /* THEME CLASSES */
+    .navy-theme {
+      background-color: #002b5c;
+      color: white;
+    }
+
+    .navy-theme .description {
+      background-color: #002147;
+      color: white;
+    }
+
+    .navy-theme .cell {
+      border-color: white;
+      background: radial-gradient(circle, #355070, #002b5c);
+    }
+
+    .navy-theme button.action-btn {
+      background-color: #ffffff;
+      color: #002b5c;
+    }
+
+    .navy-theme button.action-btn:hover {
+      background-color: #cce0ff;
+    }
+  </style>
+</head>
+<body>
+  <div class="theme-toggle">
+    <button onclick="toggleTheme()">Toggle Theme</button>
+  </div>
+
+  <h1>What's Osmosis?</h1>
+
+  <div class="description">
+    <p>
+      Osmosis is the movement of water molecules from an area of lower solute concentration to an area of higher solute concentration through a selectively permeable membrane.
+    </p>
+    <p>
+      Below is an interactive simulation to help you visualize osmosis under different conditions. Use the buttons to explore how cells behave in hypotonic, isotonic, and hypertonic solutions.
+    </p>
+  </div>
+
+  <div class="container">
+    <div class="cell">
+      <div class="water" id="water" style="height: 60%;"></div>
+      <div class="solute"></div>
+      <div class="solute"></div>
+      <div class="solute"></div>
+    </div>
+  </div>
+
+  <div class="button-container">
+    <button class="action-btn" onclick="simulateOsmosis('hypotonic')">Hypotonic</button>
+    <button class="action-btn" onclick="simulateOsmosis('isotonic')">Isotonic</button>
+    <button class="action-btn" onclick="simulateOsmosis('hypertonic')">Hypertonic</button>
+  </div>
+
+  <div class="description" id="descriptionText"></div>
+
+  <script>
+    function simulateOsmosis(type) {
+      const water = document.getElementById("water");
+      const text = document.getElementById("descriptionText");
+
+      if (type === "hypotonic") {
+        water.style.height = "90%";
+        text.innerHTML = "<b>Hypotonic solution:</b> Water moves into the cell. The cell swells and may burst.";
+      } else if (type === "isotonic") {
+        water.style.height = "60%";
+        text.innerHTML = "<b>Isotonic solution:</b> Water moves in and out at equal rates. The cell remains stable.";
+      } else if (type === "hypertonic") {
+        water.style.height = "30%";
+        text.innerHTML = "<b>Hypertonic solution:</b> Water leaves the cell. The cell shrinks (plasmolysis).";
+      }
+    }
+
+    function toggleTheme() {
+      document.body.classList.toggle("navy-theme");
+    }
+  </script>
+</body>
+</html>
